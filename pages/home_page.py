@@ -1,6 +1,9 @@
+import allure
+from allure_commons.types import AttachmentType
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from config.links import Links
+
 
 
 class HomePage(Links):
@@ -18,8 +21,10 @@ class HomePage(Links):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
+
     def open(self):
         self.driver.get(self.HOST_URL)
+
 
     def is_opened_1(self):
         self.wait.until(EC.url_to_be(self.HOST_URL))
@@ -34,6 +39,12 @@ class HomePage(Links):
     def click_company(self):
         self.wait.until(EC.element_to_be_clickable(self.COMPANY_LOCATOR)).click()
 
+    def make_screenshot(self, screenshot_name):
+        allure.attach(
+            body=self.driver.get_screenshot_as_png(),
+            name=screenshot_name,
+            attachment_type=AttachmentType.PNG
+        )
 
     # def click_consumer(self):
     #     self.wait.until(EC.element_to_be_clickable(self.CONSUMER_LOCATOR)).click()
