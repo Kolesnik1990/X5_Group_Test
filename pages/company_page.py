@@ -12,8 +12,7 @@ class CompanyPage(HomePage):
 
 
     def is_opened_2(self):
-        answer = self.wait.until(EC.url_to_be(self.PAGE_URL))
-        return answer
+        self.wait.until(EC.url_to_be(self.PAGE_URL))
 
 
     def title_company_page(self):
