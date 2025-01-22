@@ -3,7 +3,7 @@ from allure_commons.types import AttachmentType
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from config.links import Links
-
+import requests
 
 
 class HomePage(Links):
@@ -21,10 +21,8 @@ class HomePage(Links):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
-
     def open(self):
         self.driver.get(self.HOST_URL)
-
 
     def is_opened_1(self):
         self.wait.until(EC.url_to_be(self.HOST_URL))
@@ -39,6 +37,10 @@ class HomePage(Links):
     def click_company(self):
         self.wait.until(EC.element_to_be_clickable(self.COMPANY_LOCATOR)).click()
 
+    def language_home_open(self, language):
+        link = f"https://www.x5.ru/{language}/"
+        self.driver.get(link)
+
     def make_screenshot(self, screenshot_name):
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
@@ -46,20 +48,11 @@ class HomePage(Links):
             attachment_type=AttachmentType.PNG
         )
 
-    # def click_consumer(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.CONSUMER_LOCATOR)).click()
-    #
-    # def click_partner(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.PARTNER_LOCATOR)).click()
-    #
-    # def click_investor(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.INVESTOR_LOCATOR)).click()
-    #
-    # def click_press_center(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.PRESS_CENTER_LOCATOR)).click()
-    #
-    # def click_career(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.CAREER_LOCATOR)).click()
-    #
-    # def click_change_language(self):
-    #     self.wait.until(EC.element_to_be_clickable(self.CHANGE_LANGUAGE_LOCATOR)).click()
+    def status_code_home_page_ru(self):
+        response = requests.get(self.HOST_URL)
+        return response.status_code
+
+
+    def get_all_resources(self, group):
+        response = requests.get(f'https://www.x5.ru/ru/ + {group}')
+        return response.status_code
