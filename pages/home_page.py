@@ -28,8 +28,11 @@ class HomePage(Links):
         self.wait.until(EC.url_to_be(self.HOST_URL))
 
     def title_company(self):
-        title_company1 = self.wait.until(EC.visibility_of_element_located(self.COMPANY_LOCATOR)).text
-        return title_company1.replace(' ', '')
+        try:
+            title_company1 = self.wait.until(EC.visibility_of_element_located(self.COMPANY_LOCATOR)).text
+            return title_company1.replace(' ', '')
+        except AssertionError:
+            raise AssertionError(f"Не дождался появления элемента {self.COMPANY_LOCATOR}")
 
     def current_title(self):
         return self.driver.title
