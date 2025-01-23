@@ -1,5 +1,6 @@
 import allure
 from allure_commons.types import AttachmentType
+from selenium.common import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from config.links import Links
@@ -31,7 +32,7 @@ class HomePage(Links):
         try:
             title_company1 = self.wait.until(EC.visibility_of_element_located(self.COMPANY_LOCATOR)).text
             return title_company1.replace(' ', '')
-        except AssertionError:
+        except TimeoutException:
             raise AssertionError(f"Не дождался появления элемента {self.COMPANY_LOCATOR}")
 
     def current_title(self):
